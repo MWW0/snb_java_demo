@@ -39,6 +39,7 @@ jobs:
       run: |
         ARTIFACT=$(find target -name "*.jar" | head -n 1)
         echo "Uploading $ARTIFACT to $S3_BUCKET via MinIO endpoint $MINIO_ENDPOINT"
+        echo $MINIO_ENDPOINT
         aws s3 cp "$ARTIFACT" "s3://$S3_BUCKET/" --endpoint-url "$MINIO_ENDPOINT"
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
