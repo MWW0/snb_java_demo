@@ -34,7 +34,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.MINIO_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.MINIO_SECRET_KEY }}
-        MINIO_ENDPOINT: ${{ secrets.MINIO_ADDRESS }}
+        MINIO_ENDPOINT: 'http://47.117.87.253:9000'
         S3_BUCKET: 'snb-java-demo'
       run: |
         ARTIFACT=$(find target -name "*.jar" | head -n 1)
