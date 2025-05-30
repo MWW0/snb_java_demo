@@ -37,6 +37,8 @@ jobs:
         MINIO_ENDPOINT: 'http://47.117.87.253:9000'
         S3_BUCKET: 'snb-java-demo'
       run: |
+        echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:+[SET]}"
+        echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:+[SET]}"
         ARTIFACT1=$(find target -name "bom.xml" | head -n 1)
         ARTIFACT2=$(find target -name "sbom-*.jar" | head -n 1)
         
