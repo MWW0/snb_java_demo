@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn cyclonedx:makeBom
+      run: mvn clean package
       #run: mvn -B package --file pom.xml
     - name: Upload JAR to MinIO
       env:
@@ -37,10 +37,14 @@ jobs:
         MINIO_ENDPOINT: 'http://47.117.87.253:9000'
         S3_BUCKET: 'snb-java-demo'
       run: |
-        ARTIFACT=$(find target -name "*.jar" | head -n 1)
-        echo "Uploading $ARTIFACT to $S3_BUCKET via MinIO endpoint $MINIO_ENDPOINT"
-        echo $MINIO_ENDPOINT
-        aws s3 cp "$ARTIFACT" "s3://$S3_BUCKET/" --endpoint-url "$MINIO_ENDPOINT"
+        ARTIFACT1=$(find target -name "bom.xml" | head -n 1)
+        ARTIFACT2=$(find target -name "sbom-*.jar" | head -n 1)
+        
+        echo "Uploading $ARTIFACT1 to $S3_BUCKET via MinIO endpoint $MINIO_ENDPOINT"
+        aws s3 cp "$ARTIFACT1" "s3://$S3_BUCKET/" --endpoint-url "$MINIO_ENDPOINT"
+        
+        echo "Uploading $ARTIFACT2 to $S3_BUCKET via MinIO endpoint $MINIO_ENDPOINT"
+        aws s3 cp "$ARTIFACT2" "s3://$S3_BUCKET/" --endpoint-url "$MINIO_ENDPOINT"
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
